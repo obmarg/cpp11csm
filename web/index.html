@@ -60,37 +60,7 @@
         <div class="span6">
           <h2 class='center' >Compilers</h2>
            <form class="form-horizontal">
-               <fieldset>
-                   <div class="control-group">
-                       <label class="control-label" for="inlineCheckboxes">GCC</label>
-                       <div class='controls'>
-                           <label class='checkbox inline'>
-                               <input type='checkbox' id='gcc4.1check' value='gcc4.1check'> 4.1
-                           </label>
-                           <label class='checkbox inline'>
-                               <input type='checkbox' id='gcc4.1check' value='gcc4.1check'> 4.2
-                           </label>
-                           <p class='help-block'>Select versions of GCC to include in the table</p>
-                       </div>
-                   </div>
-                   <div class="control-group">
-                       <label class="control-label" for="inlineCheckboxes">Visual C++</label>
-                       <div class='controls'>
-                           <label class='checkbox inline'>
-                               <input type='checkbox' id='gcc4.1check' value='gcc4.1check'> 10
-                           </label>
-                           <p class='help-block'>Select versions of Visual C++ to include in the table</p>
-                       </div>
-                   </div>
-                   <div class="control-group">
-                       <label class="control-label" for="inlineCheckboxes">Clang</label>
-                       <div class='controls'>
-                           <label class='checkbox inline'>
-                               <input type='checkbox' id='gcc4.1check' value='gcc4.1check'> 2.9
-                           </label>
-                           <p class='help-block'>Select versions of Clang to include in the table</p>
-                       </div>
-                   </div>
+               <fieldset id="compilerVersions">
                </fieldset>
            </form>
         </div>
@@ -117,12 +87,12 @@
          <div class='span12'>
              <h2>Core Language Support</h2>
              <table class='table table-bordered'>
-                 <thead>
+                 <thead id='coreLanguageHeader'>
                      <th>Feature</th>
                      <th>GCC 4.1</th>
                      <th>MSVC</th>
                  </thead>
-                 <tbody id='coreLanguageFeatures'>
+                 <tbody id='coreLanguageBody'>
                      <tr><td>Something</td><td>Yes</td><td>No</td></tr>
                  </tbody>
              </table>

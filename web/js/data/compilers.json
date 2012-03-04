@@ -1,5 +1,26 @@
-{ "compilers" : {
-	"GCC" : [ "4.3", "4.4", "4.5", "4.6", "4.7" ],
-	"Visual Studio" : [ "10", "11" ],
-	"Clang" : [ "2.9", "3.0", "SVN" ]
-} }
+{ "compilers" : [
+	{ 
+		"Name" : "GCC", 
+		"ShortName" : "GCC",
+		"Versions" : [ 
+		    { "Num" : "4.3" },
+		    { "Num" : "4.4" }, 
+		    { "Num" : "4.5" },
+		    { "Num" : "4.6" }, 
+		    { "Num" : "4.7" }
+		    ]
+		},
+	{ 
+		"Name" : "Visual Studio",
+		"ShortName" : "MSVC",
+		"Versions" : [ { "Num" : "10" }, { "Num" : "11" } ] 
+		},
+	{ 
+		"Name" : "Clang",
+		"ShortName" : "Clang",
+		"Versions" : [ 
+		    { "Num" : "2.9" },
+		    { "Num" : "3.0" }
+		    ]
+		}
+] }
