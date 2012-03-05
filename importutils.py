@@ -2,7 +2,7 @@
 Defines some utilities for importing compiler support data
 '''
 
-from db import CompilerVersion, Feature, FeatureCompilerVersion
+from db import Compiler, CompilerVersion, Feature, FeatureCompilerVersion
 
 all = [ 'Utils' ]
 
@@ -12,14 +12,26 @@ class Utils(object):
     Mostly just to save on passing in globals etc.
     '''
 
-    def __init__( self, db, compiler ):
+    def __init__( self, db, compilerName ):
         '''
         Constructor
         @param: db          The database to use
-        @param: compiler    The compiler database object
+        @param: compiler    The compiler name
         '''
         self.db = db
-        self.compiler = compiler
+        self.compiler = self.GetCompiler( compilerName )
+
+    def GetCompiler( self, name ):
+        '''
+        Gets or creates a compiler with the passed in name
+        '''
+        try:
+            compiler = self.db.query( Compiler ).filter_by( name=name ).one()
+        except:
+            compiler = Compiler( name = name )
+            self.db.add( compiler )
+            self.db.commit()
+        return compiler
 
     def GetVersion( self, verString ):
         '''
