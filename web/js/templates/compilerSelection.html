@@ -3,11 +3,11 @@
   <label class="control-label" for="inlineCheckboxes">{{ Name }}</label>
   <div class='controls'>
     {{# Versions }}
-    <label class='checkbox inline'>
+    <label class='compilerCheckbox checkbox inline'>
       <input 
         type='checkbox'
-        id='{{ ShortName }}{{ Num }}check'
-        value='{{ ShortName }}{{ Num }}'
+        id='{{ ShortName }}{{ AltNum }}check'
+        value='{{ ShortName }}{{ AltNum }}'
         checked > {{ Num }}
     </label>
     {{/ Versions }}
