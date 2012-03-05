@@ -9,9 +9,15 @@ from importutils import *
 
 session = GetDbSession()
 
-utils = Utils( session, "Clang" )
 
 if __name__ == "__main__":
+    if len( sys.argv ) != 2:
+        quit( "Usage: importclanggcc.py [compilername]" )
+    if sys.argv[ 1 ] != "Clang" and sys.argv[ 1 ] != "GCC":
+        quit( "Compiler name must be either Clang or GCC" )
+    
+    utils = Utils( session, sys.argv[ 1 ] )
+    
     soup = BeautifulSoup( sys.stdin )
 
     for table in soup.find_all('table'):

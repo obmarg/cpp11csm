@@ -41,6 +41,7 @@ class Utils(object):
         prefix = self.compiler.name + " "
         if verString.startswith( prefix ):
             verString = verString.replace( prefix, "" ).strip()
+        #TODO: Need to handle Yes + other oddball strings here
         try:
             verEntry = self.db.query( CompilerVersion ).filter_by(
                     compiler = self.compiler,
@@ -60,7 +61,7 @@ class Utils(object):
         Processes a feature extracted from the table
         @param: name - The name of the feature
         @param: proposal - The proposal number
-        @param: version - The version string of the proposal
+        @param: version - The version string avaliable from (or "No")
         '''
         # First, check if we have a feature with this proposal number
         proposals = self.db.query( 
@@ -81,7 +82,7 @@ class Utils(object):
                         )
             feature = proposals[ 0 ]
 
-        if version == "No":
+        if version.beginswith( "No" ):
             return # We don't need to add a version entry if there's no support
 
         foundOurCompiler = False
@@ -90,7 +91,7 @@ class Utils(object):
                 foundOurCompiler = True
 
         if not foundOurCompiler:
-            verEntry = GetVersion( version )
+            verEntry = self.GetVersion( version )
             feature.support.append(
                     FeatureCompilerVersion( minimumVersion = verEntry )
                     )
