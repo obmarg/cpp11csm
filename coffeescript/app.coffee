@@ -19,7 +19,10 @@ define [
       $( "#compilerVersions" ).html(
         Mustache.render( compilersTemplate, compilers )
       )
-      $( ".compilerCheckbox" ).change( @updateFeatureTable )
+      changeHandler = ->
+        @updateFeatureTable()
+      changeHandler = _.bind( changeHandler, @ )
+      $( ".compilerCheckbox" ).change( changeHandler )
 
       @compilers = compilers.compilers
       # Now, transform the input JSON into a nice array of 
@@ -36,7 +39,7 @@ define [
       )
       @appendVersions( nameVer ) for nameVer in _.zip( names, shortNames, compVers )
 
-      @languageFeatures = $.parseJSON( languageFeaturesJson )
+      @languageFeatures = $.parseJSON( languageFeaturesJson ).features
 
       @updateFeatureTable()
 
@@ -69,7 +72,9 @@ define [
         @processFeature( feature ) for feature in @languageFeatures
       )
 
-      $( "#coreLanguageBody" ).html()
+      $( "#coreLanguageBody" ).html(
+        featureArray.join( "\n" )
+      )
 
     compilerCheckboxActive: ( compVer ) ->
       # Checks if a compiler versions checkbox has been checked
@@ -86,13 +91,14 @@ define [
     processFeature: (feature) ->
       # Processes a feature.  Returns the appropriate HTML row in string form
       name = feature.Name
-      output = "<tr><td>#{name}</td>"
+      output = "<tr>\n<td>#{name}</td>\n"
       supportArray = (
         @featureSupported(
           compVer, feature.Support
         ) for compVer in @activeCompilers
       )
-      alert( "Done" )
+      rowArray = ( @getTableCell( supported ) for supported in supportArray )
+      output + rowArray.join( "\n" ) + "</tr>"
 
     featureSupported: ( compVer, supportObj ) ->
       # Checks if a feature is supported on a particular compiler version
@@ -102,7 +108,15 @@ define [
       	supportedVer = parseFloat( supportObj[ compVer.Name ] )
       	actualVer = parseFloat( compVer.Version )
       	return actualVer >= supportedVer
-      return False
+      return false
+
+    getTableCell : ( supported ) ->
+      # Returns a <td> string for a table cell
+      # supported : True if the feature is supported
+      if supported
+      	return "<td class='success'>Yes</td>"
+      else
+      	return "<td class='error'>No</td>"
 
 
 
