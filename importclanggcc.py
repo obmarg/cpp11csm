@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 '''
 Imports the clang feature table into the database
 '''
