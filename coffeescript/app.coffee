@@ -87,6 +87,10 @@ define [
       @activeCompilers = (
         cv for cv in @compVers when @compilerCheckboxActive( cv )
       )
+      if $('input:radio[name=displayAvaliable]:checked').val() == "yes"
+      	@displayOnlyAvaliable = true
+      else
+      	@displayOnlyAvaliable = false
 
     processFeature: (feature) ->
       # Processes a feature.  Returns the appropriate HTML row in string form
@@ -97,6 +101,9 @@ define [
           compVer, feature.Support
         ) for compVer in @activeCompilers
       )
+      if @displayOnlyAvaliable and not _.any( supportArray )
+        # This is not an avaliable feature, skip it
+      	return ""
       rowArray = ( @getTableCell( supported ) for supported in supportArray )
       output + rowArray.join( "\n" ) + "</tr>"
 
