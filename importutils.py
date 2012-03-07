@@ -82,7 +82,7 @@ class Utils(object):
                         )
             feature = proposals[ 0 ]
 
-        if version.beginswith( "No" ):
+        if version.startswith( "No" ):
             return # We don't need to add a version entry if there's no support
 
         foundOurCompiler = False
