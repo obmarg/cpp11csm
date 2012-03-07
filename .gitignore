@@ -1,4 +1,4 @@
 *.js
 *.bat
 *.pyc
-index.html
+web/index.html

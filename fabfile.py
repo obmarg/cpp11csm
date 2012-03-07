@@ -23,7 +23,7 @@ def generate():
                 })
         for ver in compiler.versions:
             verList.append( 
-                    { 'num' : ver.num, 'altnum' : ver.num.replace( '.', '' ) } 
+                    { 'num' : ver.num, 'altnum' : ver.num.replace( '.', '_' ) } 
                     )
     featureList = []
     for feature in featureQuery:
@@ -43,7 +43,7 @@ def generate():
             for ver in compiler.versions:
                 compId = (
                         compiler.name.replace( ' ', '' ) +
-                        ver.num.replace( '.', '' )
+                        ver.num.replace( '.', '_' )
                         )
                 supportDict = { 'id' : compId }
 
