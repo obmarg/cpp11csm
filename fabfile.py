@@ -3,6 +3,7 @@ import codecs
 import jinja2
 from db import GetDbSession, Compiler, CompilerVersion, Feature
 from db import FeatureCompilerVersion
+from fabric.api import local, run
 
 
 def generate():
@@ -74,4 +75,5 @@ def generate():
                 template.render( **templateData ) 
                 )
 
-
+def coffee():
+    local( 'coffee -o web/js/ coffeescript/' )
