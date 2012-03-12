@@ -27,7 +27,7 @@ define [
         ).prop( 'checked', false )
         return false
       )
-      $( 'input:radio[name=displayAvaliable]' ).change( ->
+      $( 'input:radio[name=displayRequirements]' ).change( ->
         window.TheApp.checkSettings()
         window.TheApp.checkHideOrShow()
       )
@@ -43,16 +43,16 @@ define [
       # Checks the checkbox settings, and sets up data appropriately
       #
       # First, check what compilers we're using
-      if $('input:radio[name=displayAvaliable]:checked').val() == "yes"
-      	@displayOnlyAvaliable = true
-      else
-      	@displayOnlyAvaliable = false
+      @displayRequirements = (
+        $('input:radio[name=displayRequirements]:checked').val()
+      )
 
     checkCompilerSettings : ()->
         checkbox = $( this ).children().first()
         compilerId = checkbox.val()
         checked = checkbox.attr( 'checked' )
         window.TheApp.doCompilerCheck( compilerId, checked )
+        return true
 
     doCompilerCheck: ( compilerId, checked ) ->
       # A handler for changing the compiler checkboxes
@@ -69,23 +69,33 @@ define [
       	@checkHideOrShow()
 
     checkHideOrShow: ->
-      if @displayOnlyAvaliable
-        # TODO: Hide shit
+      if @displayRequirements != "none"
+        showIfAll = @displayRequirements == 'all'
         $("#coreLanguageBody").find("tr").each( ->
           anySupported = false
+          allSupported = true
           me = $(this)
           me.find( "td" ).each( ->
             if $(this).attr( 'data-supported' ) == 'true'
               if $(this).attr( 'data-hidden' ) == 'false'
                 anySupported = true
+            else
+              if $(this).attr( 'data-hidden' ) == 'false'
+              	allSupported = false
+            return true
           )
-          if anySupported and not me.is(':visible')
+
+          if showIfAll
+          	show = allSupported
+          else
+          	show = anySupported
+          if show
           	me.show( )
-          if not anySupported and me.is(':visible')
+          else
           	me.hide( 300 )
         )
       else
-      	$("#coreLanguageBody").find("tr").show( 1000 )
+      	$("#coreLanguageBody").find("tr").show( )
  
   initialize = ->
     window.TheApp = new App

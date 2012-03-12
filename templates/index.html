@@ -95,10 +95,29 @@
                        <label class='control-label'>Feature filtering</label>
                        <div class='controls'>
                            <label class='radio'>
-                               <input type='radio' name='displayAvaliable' id='displayAvaliableNo' value='no' checked> Display all features
+                               <input 
+                                type='radio' 
+                                name='displayRequirements'
+                                id='displayRequirementsNone' 
+                                value='none' 
+                                checked
+                                > Show all features
                            </label>
                            <label class='radio'>
-                               <input type='radio' name='displayAvaliable' id='displayAvaliableYes' value='yes'> Only display avaliable features
+                               <input 
+                                type='radio' 
+                                name='displayRequirements' 
+                                id='displayRequirementsOne' 
+                                value='one'
+                                > Show features supported by at least one compiler
+                           </label>
+                           <label class='radio'>
+                               <input 
+                                type='radio' 
+                                name='displayRequirements' 
+                                id='displayRequirementsAll' 
+                                value='all'
+                                > Show features supported by all compilers
                            </label>
                        </div>
                    </div>
