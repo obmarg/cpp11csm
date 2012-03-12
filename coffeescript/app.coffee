@@ -7,18 +7,15 @@ define [
 
   class App
     initialize: ->
-      # TODO: delete this next block of code (replace it with a different handler)
-      $( ".compilerCheckbox" ).change( ->
-        checkbox = $( this ).children().first()
-        compilerId = checkbox.val()
-        checked = checkbox.attr( 'checked' )
-        window.TheApp.checkCompilerSettings( compilerId, checked )
-        window.TheApp.checkHideOrShow()
-      )
       $( 'input:radio[name=displayAvaliable]' ).change( ->
         window.TheApp.checkSettings()
         window.TheApp.checkHideOrShow()
       )
+      @doCheckHide = false
+      $( ".compilerCheckbox" ).change(
+        @checkCompilerSettings
+      ).not( ':checked' ).each( @checkCompilerSettings )
+      @doCheckHide = true
       @checkSettings()
       @checkHideOrShow()
       
@@ -31,21 +28,30 @@ define [
       else
       	@displayOnlyAvaliable = false
 
-    checkCompilerSettings: ( compilerId, checked ) ->
+    checkCompilerSettings : ()->
+        checkbox = $( this ).children().first()
+        compilerId = checkbox.val()
+        checked = checkbox.attr( 'checked' )
+        window.TheApp.doCompilerCheck( compilerId, checked )
+
+    doCompilerCheck: ( compilerId, checked ) ->
       # A handler for changing the compiler checkboxes
+      # Params:
+      # compilerId  - The id of the compiler
+      # checked - Whether or not the checkbox is checked
+      #
       targets = $( "[data-compilerid=" + compilerId + "]" )
       if checked
-        targets.show( 1000 )
         targets.attr( 'data-hidden', 'false' )
+        targets.show( )
       else
-        targets.hide( 1000 )
         targets.attr( 'data-hidden', 'true' )
-
+        targets.hide( )
+      if @doCheckHide
+      	@checkHideOrShow()
 
     checkHideOrShow: ->
-      # Using globals in here, to save on having to bind
-      # the function to this properly
-      if window.TheApp.displayOnlyAvaliable
+      if @displayOnlyAvaliable
         # TODO: Hide shit
         $("#coreLanguageBody").find("tr").each( ->
           anySupported = false
@@ -56,9 +62,9 @@ define [
                 anySupported = true
           )
           if anySupported and not me.is(':visible')
-          	me.show( 1000 )
+          	me.show( )
           if not anySupported and me.is(':visible')
-          	me.hide( 1000 )
+          	me.hide( 300 )
         )
       else
       	$("#coreLanguageBody").find("tr").show( 1000 )
