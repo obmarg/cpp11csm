@@ -1,6 +1,5 @@
 define [
-  "Underscore",
-], ( _ ) ->
+], ( ) ->
 
   class CompilerVersion
     constructor: ( @Name, @ShortName, @Version, @AltVersion ) ->
