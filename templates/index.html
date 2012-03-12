@@ -124,12 +124,20 @@
                          <td>{{ feature.name }}</td>
                          {% for support in feature.support %}
                          {% if support.supported %}
-                         <td class='success' data-compilerid='{{ support.id }}'>
-                             Yes
+                         <td 
+                             class='alert-success' 
+                             data-compilerid='{{ support.id }}'
+                             data-supported='true'
+                             data-hidden='false'
+                             > Yes
                          </td>
                          {% else %}
-                         <td class='error' data-compilerid='{{ support.id }}'>
-                             No
+                         <td 
+                             class='alert-error' 
+                             data-compilerid='{{ support.id }}'
+                             data-supported='false'
+                             data-hidden='false'
+                             > No
                          </td>
                          {% endif %}
                          {% endfor %}
