@@ -59,7 +59,7 @@
       <div class="row">
         <div class="span6">
           <h2 class='center' >Compilers</h2>
-           <form class="form-horizontal">
+           <form class="form-horizontal" method="" >
                <fieldset id="compilerVersions">
                     {% for compiler in compilers %}
                     <div class="control-group">
@@ -82,6 +82,8 @@
                         </div>
                     </div>
                     {% endfor %}
+                    <button class='btn show-all'>Show All</button>
+                    <button class='btn show-none'>Show None</button>
                </fieldset>
            </form>
         </div>
@@ -106,7 +108,7 @@
      </div>
      <div class='row'>
          <div class='span12'>
-             <h2>Core Language Support</h2>
+             <h2>Support</h2>
              <table class='table table-bordered'>
                  <thead id='coreLanguageHeader'>
                      <th>Feature</th>

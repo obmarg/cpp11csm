@@ -7,6 +7,26 @@ define [
 
   class App
     initialize: ->
+      $( 'button.show-all' ).click( ->
+        # show everything manually then change the checkboxes,
+        # seems that the change event doesn't get sent when changing
+        # things this way.  Probably faster doing it manually as well
+        $( '[data-compilerid]' ).attr( 'data-hidden', false ).show()
+        window.TheApp.checkHideOrShow()
+        $( '.compilerCheckbox' ).children(
+          'input:checkbox'
+        ).prop( 'checked', true )
+        return false
+      )
+      $( 'button.show-none' ).click( ->
+        # Likewise here, hide everything manually
+        $( '[data-compilerid]' ).attr( 'data-hidden', true ).hide()
+        window.TheApp.checkHideOrShow()
+        $( '.compilerCheckbox' ).children(
+          'input:checkbox'
+        ).prop( 'checked', false )
+        return false
+      )
       $( 'input:radio[name=displayAvaliable]' ).change( ->
         window.TheApp.checkSettings()
         window.TheApp.checkHideOrShow()
@@ -42,11 +62,9 @@ define [
       #
       targets = $( "[data-compilerid=" + compilerId + "]" )
       if checked
-        targets.attr( 'data-hidden', 'false' )
-        targets.show( )
+        targets.attr( 'data-hidden', 'false' ).show()
       else
-        targets.attr( 'data-hidden', 'true' )
-        targets.hide( )
+        targets.attr( 'data-hidden', 'true' ).hide()
       if @doCheckHide
       	@checkHideOrShow()
 
