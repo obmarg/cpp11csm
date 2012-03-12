@@ -48,11 +48,19 @@ def generate():
                 supportDict = { 'id' : compId }
 
                 try:
-                    supported = float( ver.num ) >= minVersions[ compiler.name ]
+                    try:
+                        supported = ( 
+                                float( ver.num ) >= minVersions[ compiler.name ]
+                                )
+                    except ValueError:
+                        # Fall back for "SVN" version of Clang
+                        if ver.num == "SVN" and minVersions[ compiler.name ]:
+                            # If supported at all, supported in SVN
+                            supported = True 
+                        else:
+                            supported = False
                 except KeyError:
                     supported = False
-                except ValueError:
-                    supported = False #Add proper support for this - non string versions
                 supportDict[ 'supported' ] = supported
                 supportList.append( supportDict )
     templateData = {
