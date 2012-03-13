@@ -217,7 +217,8 @@ AddType text/x-vcard                        vcf
 # If you don't use filenames to version, lower the CSS  and JS to something like
 #   "access plus 1 week" or so.
 
-<IfModule mod_expires.c>
+#<IfModule mod_expires.c>
+<IfModule disabledfornow>
   ExpiresActive on
 
 # Perhaps better to whitelist expires rules? Perhaps.
@@ -267,6 +268,28 @@ AddType text/x-vcard                        vcf
 
 </IfModule>
 
+### CACHING ####
+ExpiresActive On
+ExpiresDefault A3600
+
+# 1 MONTH
+<FilesMatch "\.(ico|gif|jpe?g|png|flv|pdf|swf|mov|mp3|wmv|ppt)$">
+ExpiresDefault A2419200
+Header append Cache-Control "public"
+</FilesMatch>
+
+# 3 DAYS
+<FilesMatch "\.(xml|txt|html|htm|js|css)$">
+ExpiresDefault A259200
+Header append Cache-Control "private, must-revalidate"
+</FilesMatch>
+
+# NEVER CACHE
+<FilesMatch "\.(php|cgi|pl)$">
+ExpiresDefault A0
+Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+Header set Pragma "no-cache"
+</FilesMatch>
 
 
 # ----------------------------------------------------------------------
