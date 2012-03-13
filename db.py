@@ -15,7 +15,11 @@ all = [
     'FeatureCompilerVersion'
     ]
 
-engine = create_engine( 'sqlite:///data.db', echo=True )
+# Switch this to true to enable debugging output
+debug = False
+
+
+engine = create_engine( 'sqlite:///data.db', echo=debug )
 GetDbSession = sessionmaker( bind=engine )
 
 Base = declarative_base()
