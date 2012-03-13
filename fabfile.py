@@ -43,6 +43,7 @@ def generate(css=True):
         supportList = []
         featureList.append( AttrDict(
                 name = feature.name,
+                proposal = feature.proposal,
                 support = supportList
                 ) )
         minVersions = {}

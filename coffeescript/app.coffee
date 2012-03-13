@@ -37,6 +37,7 @@ define [
       @doCheckHide = true
       @checkSettings()
       @checkHideOrShow()
+      $("[rel=tooltip]").tooltip()
       
     checkSettings: ->
       # Checks the checkbox settings, and sets up data appropriately

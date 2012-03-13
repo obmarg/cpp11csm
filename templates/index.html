@@ -146,7 +146,12 @@
                  <tbody id='coreLanguageBody'>
                      {% for feature in features %}
                      <tr>
-                         <td>{{ feature.name }}</td>
+                         <td>
+                             <a
+                                 href='#' 
+                                 title='{{feature.proposal}}' 
+                                 rel='tooltip'>{{ feature.name }}</a>
+                             </td>
                          {% for support in feature.support %}
                          {% if support.supported %}
                          <td 
@@ -185,6 +190,7 @@
 
 <script src="js/libs/bootstrap/transition.js"></script>
 <script src="js/libs/bootstrap/collapse.js"></script>
+<script src="js/libs/bootstrap/tooltip.js"></script>
 
 <script data-main="js/main" src="js/libs/require.js"></script>
 <script>
