@@ -69,6 +69,7 @@ define [
 
     checkHideOrShow: ->
       if @displayRequirements != "none"
+        displayRequirements = @displayRequirements
         $("#coreLanguageBody").find("tr").each( ->
           anySupported = false
           allSupported = true
@@ -83,7 +84,7 @@ define [
             return true
           )
 
-          if @displayRequirements == 'all'
+          if displayRequirements == 'all'
           	show = allSupported and anySupported
           else
           	show = anySupported
