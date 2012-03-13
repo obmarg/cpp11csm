@@ -4,9 +4,10 @@ import jinja2
 from db import GetDbSession, Compiler, CompilerVersion, Feature
 from db import FeatureCompilerVersion
 from fabric.api import local, run
+from fabric.contrib.project import rsync_project
 
 
-def generate():
+def generate(css=True):
     '''
     Generates HTML from the database
     '''
@@ -66,7 +67,8 @@ def generate():
                 supportList.append( supportDict )
     templateData = {
             'compilers' : compilerList,
-            'features' : featureList
+            'features' : featureList,
+            'css' : css
             }
     env = jinja2.Environment( loader=jinja2.FileSystemLoader( 'templates' ) )
     template = env.get_template( 'index.html' )
@@ -77,3 +79,17 @@ def generate():
 
 def coffee():
     local( 'coffee -o web/js/ coffeescript/' )
+
+def less():
+    local( 'lessc web/less/style.less > web/style.css' )
+
+def deploy(path):
+    generate()
+    coffee()
+    less()
+    rsync_project(
+            remote_dir = path,
+            exclude='less/',
+            local_dir= 'web/',
+            )
+

@@ -14,14 +14,13 @@
 
 	<meta name="viewport" content="width=device-width">
 
-	<link rel="stylesheet/less" href="less/style.less">
-	<script src="js/libs/less-1.2.1.min.js"></script>
+    {% if css %}
+    <link rel='stylesheet' type='text/css' href='style.css'>
+    {% else %}
+    <link rel="stylesheet/less" href="less/style.less">
+    <script src="js/libs/less-1.2.1.min.js"></script>
+    {% endif %}
 	
-	<!-- Use SimpLESS (Win/Linux/Mac) or LESS.app (Mac) to compile your .less files
-	to style.css, and replace the 2 lines above by this one:
-
-	<link rel="stylesheet/less" href="less/style.css">
-	 -->
 
 	<script src="js/libs/modernizr-2.5.3-respond-1.1.0.min.js"></script>
 </head>
@@ -189,10 +188,10 @@
 
 <script data-main="js/main" src="js/libs/require.js"></script>
 <script>
-	var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-	(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-	g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-	s.parentNode.insertBefore(g,s)}(document,'script'));
+	//var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+	//(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+	//g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+	//s.parentNode.insertBefore(g,s)}(document,'script'));
 </script>
 
 </body>
