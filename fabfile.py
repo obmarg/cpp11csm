@@ -6,34 +6,45 @@ from db import FeatureCompilerVersion
 from fabric.api import local, run
 from fabric.contrib.project import rsync_project
 
+class AttrDict(dict):
+    __getattr__ = dict.__getitem__
+    __setattr__ = dict.__setitem__
 
 def generate(css=True):
     '''
     Generates HTML from the database
     '''
     session = GetDbSession()
-    featureQuery = session.query( Feature ).join( 'support', 'minimumVersion' )
-    compilerQuery = session.query( Compiler ).join( 'versions' )
+    featureQuery = (
+            session.query( Feature ).join( 
+                'support', 'minimumVersion' 
+                ).order_by( 'name' )
+            )
+    compilerQuery = ( 
+            session.query( Compiler ).join( 'versions' )
+            )
     featureList = []
     compilerList = []
     for compiler in compilerQuery:
         verList = []
-        compilerList.append({
-                'name' : compiler.name, 
-                'shortname' : compiler.name.replace( ' ', '' ),
-                'versions' : verList
-                })
+        compilerList.append( AttrDict(
+                name = compiler.name, 
+                shortname = compiler.name.replace( ' ', '' ),
+                versions = verList
+                ))
         for ver in compiler.versions:
-            verList.append( 
-                    { 'num' : ver.num, 'altnum' : ver.num.replace( '.', '_' ) } 
-                    )
+            verList.append( AttrDict( 
+                num = ver.num, altnum = ver.num.replace( '.', '_' )
+                ) )
+        # Sort the versions, since i've not had much luck ordering sql queries
+        verList.sort( key= lambda x: x.num )
     featureList = []
     for feature in featureQuery:
         supportList = []
-        featureList.append({
-                'name' : feature.name,
-                'support' : supportList
-                })
+        featureList.append( AttrDict(
+                name = feature.name,
+                support = supportList
+                ) )
         minVersions = {}
         for featureSupport in feature.support:
             try:
@@ -41,11 +52,11 @@ def generate(css=True):
                 minVersions[ minVer.compiler.name ] = float( minVer.num )
             except ValueError:
                 pass
-        for compiler in compilerQuery:
+        for compiler in compilerList:
             for ver in compiler.versions:
                 compId = (
-                        compiler.name.replace( ' ', '' ) +
-                        ver.num.replace( '.', '_' )
+                        compiler.shortname +
+                        ver.altnum
                         )
                 supportDict = { 'id' : compId }
 
