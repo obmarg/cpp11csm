@@ -1,6 +1,7 @@
 
 import codecs
 import jinja2
+import re
 from db import GetDbSession, Compiler, CompilerVersion, Feature
 from db import FeatureCompilerVersion
 from fabric.api import local, run
@@ -82,11 +83,17 @@ def generate(css=True):
             'features' : featureList,
             'css' : css
             }
-    env = jinja2.Environment( loader=jinja2.FileSystemLoader( 'templates' ) )
+    env = jinja2.Environment( 
+            loader=jinja2.FileSystemLoader( 'templates' ),
+            )
     template = env.get_template( 'index.html' )
+    rendered = template.render( **templateData )
+    # Strip empty lines
+    rendered = re.sub( '^\s+$', '', rendered, flags=re.MULTILINE )
+    rendered = re.sub( ' {8}', '\t', rendered, flags=re.MULTILINE )
     with codecs.open( 'web/index.html', encoding='utf-8', mode='w' ) as output:
         output.write( 
-                template.render( **templateData ) 
+                rendered
                 )
 
 def coffee():
